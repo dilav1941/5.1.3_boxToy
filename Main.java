@@ -2,23 +2,19 @@ package com.company;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main ( String[] args ) throws InterruptedException {
 
-        final Thread toyThred = new Thread(null, new Toy(), "Коробка");
-        toyThred.start ();
+        Toy toy = new Toy ();
 
-        final Thread peopleThred = new Thread (null, new People (), "Игрок");
-        peopleThred.start ();
+        Thread user = new Thread (null, toy::switchON, "Пользователь");
+        Thread Toy = new Thread (null, toy::switchOFF, "Игрушка");
 
-        peopleThred.join ();
-        if(!peopleThred.isAlive ()){
-            System.out.println ("Поток Игрок завершен");
-            toyThred.interrupt ();
-        }
+        user.start ();
+        Toy.start ();
 
-        toyThred.join (1000);
-        if (!toyThred.isAlive ()){
-            System.out.println ("Поток Игрушка завершен");
-        }
+        user.join ();
+        Toy.interrupt ();
+
+        System.out.println ("\nПотоки завершены");
     }
 }
